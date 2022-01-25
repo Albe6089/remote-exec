@@ -1,7 +1,9 @@
+# using a default vpc
 data "aws_vpc" "selected" {
   id = var.vpc_id
 }
 
+# using a data resource to lookup the latest ubuntu ami
 data "aws_ami" "latest-ubuntu" {
   most_recent = true
   owners      = ["099720109477"] # Canonical
@@ -17,6 +19,13 @@ data "aws_ami" "latest-ubuntu" {
   }
 }
 
+# creating a keypair
+resource "aws_key_pair" "my_key" {
+  key_name   = "my_key"
+  public_key = file(pathexpand("~/.ssh/id_rsa.pub"))
+}
+
+# creating a bastion-host
 resource "aws_instance" "b-h" {
   ami                    = data.aws_ami.latest-ubuntu.id
   key_name               = aws_key_pair.my_key.key_name
@@ -24,14 +33,17 @@ resource "aws_instance" "b-h" {
   vpc_security_group_ids = [aws_security_group.bastion-sg.id]
 
   tags = {
-    Name = "Bastion-host"
+    Name = "Bastion_Host"
   }
+}
+
+# resource implements the standard resource lifecycle but takes no further action
+resource "null_resource" "connect" {
 
   connection {
-    type = "ssh"
-    port = 22
-    // host        = aws_instance.b-h.public_ip
-    host        = self.public_ip
+    type        = "ssh"
+    port        = 22
+    host        = aws_instance.b-h.public_ip
     private_key = file(pathexpand("~/.ssh/id_rsa"))
     user        = "ubuntu"
     timeout     = "1m"
@@ -42,9 +54,7 @@ resource "aws_instance" "b-h" {
       "sudo apt-get -y update"
     ]
   }
-}
 
-resource "aws_key_pair" "my_key" {
-  key_name   = "my_key"
-  public_key = file(pathexpand("~/.ssh/id_rsa.pub"))
+  depends_on = [aws_instance.b-h]
+
 }

@@ -51,7 +51,8 @@ resource "null_resource" "connect" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt-get -y update"
+      "sudo apt-get -y update",
+      "sudo apt install ansible -y"
     ]
   }
 

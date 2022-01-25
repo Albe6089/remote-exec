@@ -8,7 +8,7 @@ data "aws_ami" "latest-ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {
@@ -18,8 +18,9 @@ data "aws_ami" "latest-ubuntu" {
 }
 
 resource "aws_instance" "b-h" {
-  ami           = data.aws_ami.latest-ubuntu.id
-  instance_type = var.ubuntu_instance_type
+  ami                    = data.aws_ami.latest-ubuntu.id
+  instance_type          = var.ubuntu_instance_type
+  vpc_security_group_ids = [aws_security_group.bastion-sg.id]
 
   tags = {
     Name = "Bastion-host"

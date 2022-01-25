@@ -19,10 +19,32 @@ data "aws_ami" "latest-ubuntu" {
 
 resource "aws_instance" "b-h" {
   ami                    = data.aws_ami.latest-ubuntu.id
+  key_name               = aws_key_pair.my_key.key_name
   instance_type          = var.ubuntu_instance_type
   vpc_security_group_ids = [aws_security_group.bastion-sg.id]
 
   tags = {
     Name = "Bastion-host"
   }
+
+  connection {
+    type = "ssh"
+    port = 22
+    // host        = aws_instance.b-h.public_ip
+    host        = self.public_ip
+    private_key = file(pathexpand("~/.ssh/id_rsa"))
+    user        = "ubuntu"
+    timeout     = "1m"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get -y update"
+    ]
+  }
+}
+
+resource "aws_key_pair" "my_key" {
+  key_name   = "my_key"
+  public_key = file(pathexpand("~/.ssh/id_rsa.pub"))
 }

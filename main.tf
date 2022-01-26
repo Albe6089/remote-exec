@@ -99,7 +99,19 @@ resource "null_resource" "connect" {
   //   command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u root -i '${self.ipv4_address},' --private-key ${var.pvt_key} -e 'pub_key=${var.pub_key}' apache-install.yml"
   // }
 
-  provisioner "local-exec" {
-    command = "echo 'test2' >> /tmp/txt"
-  }
+  // provisioner "local-exec" {
+  //   command = " ansible-playbook user_add.yml"
+  // }
+}
+
+
+resource "null_resource" "remote_cmds" {
+
+triggers = {
+always_run = "${timestamp()}"
+}
+
+provisioner "local-exec" {
+command = "echo 'test1' > /tmp/txt "
+}
 }

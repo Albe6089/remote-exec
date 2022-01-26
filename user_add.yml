@@ -11,7 +11,7 @@
 # $ python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass(), rounds=5000)"
 #
 
-- hosts: all
+- hosts: localhost
   become: True
   gather_facts: False
 

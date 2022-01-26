@@ -77,7 +77,7 @@ EOF
 # resource implements the standard resource lifecycle but takes no further action
 resource "null_resource" "connect" {
 
-  #Just a test
+#Just a test
   triggers = {
     always_run = timestamp()
   }
@@ -95,7 +95,8 @@ resource "null_resource" "connect" {
 
     inline = [
       "sudo mkdir /etc/ansible/roles/user_add/tasks -p",
-      "sudo mv /home/ubuntu/user_add.yml /etc/ansible/roles/user_add/tasks",
+      "sudo mv /tmp/user_add.yml /etc/ansible/roles/user_add/tasks",
+      "rm user_add.yml /tmp/*",
       "sudo apt-get -y update",
       "sudo apt install python3 -y"
     ]
@@ -103,11 +104,18 @@ resource "null_resource" "connect" {
 
   depends_on = [aws_instance.b-h]
 
+  // provisioner "local-exec" {
+  //   command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u root -i '${self.ipv4_address},' --private-key ${var.pvt_key} -e 'pub_key=${var.pub_key}' apache-install.yml"
+  // }
+
+  // provisioner "local-exec" {
+  //   command = " ansible-playbook user_add.yml"
+  // }
+
   provisioner "file" {
     source      = "user_add.yml"
-    // destination = "/tmp/user_add.yml"
-    destination = "/home/ubuntu/user_add.yml"
-  }
+    destination = "/tmp/user_add.yml"
+  }  
 }
 
 // resource "null_resource" "remote_cmds" {

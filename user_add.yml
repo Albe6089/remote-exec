@@ -1,26 +1,36 @@
-- name: Add the user 'johnd' with a specific uid and a primary group of 'admin'
-  ansible.builtin.user:
-    name: johnd
-    comment: John Doe
-    uid: 1040
-    group: admin
+# Add user, and optionally add sudo rule
+# Tested with Ansible 2.2.1.0
+#
+# A password hash can be obtained with the output of the
+# following command which requires python's passlib library.
+#
+# $ python3 -c "from passlib.hash import sha512_crypt; import getpass; print(sha512_crypt.encrypt(getpass.getpass(), rounds=5000))"
+#
+# Alternatively if only python2 is available (at the time of writing it is the case on the bastion server):
+#
+# $ python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass(), rounds=5000)"
+#
 
-- name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
-  ansible.builtin.user:
-    name: james
-    shell: /bin/bash
-    groups: admins,developers
-    append: yes
+- hosts: all
+  become: True
+  gather_facts: False
 
-- name: Remove the user 'johnd'
-  ansible.builtin.user:
-    name: johnd
-    state: absent
-    remove: yes
-
-- name: Create a 2048-bit SSH key for user jsmith in ~jsmith/.ssh/id_rsa
-  ansible.builtin.user:
-    name: jsmith
-    generate_ssh_key: yes
-    ssh_key_bits: 2048
-    ssh_key_file: .ssh/id_rsa
+## Alternatively, could can set "users" in yml, for example if you want
+## to add many users at once. To use this way comment out vars_prompt
+## and uncomment and edit this section
+vars:
+   users:
+     - username: 'jdoe'
+       comment: 'Jane Doe'
+       group: 'users'
+       addgroups: ''
+       pwdhash: '$6$hENX71AX$nawouqqTCpmxYXQUR76SpT9jW9sL/Jbz3.h21zlGHCbXQU7a4P1AKdioCTQC.9vCPhSdXbh01lhSQfUT4I303.'
+       issudo: 'n'
+     - username: 'jsmith'
+       comment: 'John Smith'
+       addgroups: 'adm'
+       pwdhash: '$6$WcMSc2Co$MyDhAa0zXyBu/L68ZLNPeJHGs49dOZWWGp.pzNqq5DOOjZmi6T7r8UmoiMh/YVIu9s5sF2mBg2jERQCBNfcVP/'
+       issudo: 'y'
+  tasks:
+  - include_role:
+      name: user_add

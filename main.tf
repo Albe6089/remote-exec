@@ -52,10 +52,17 @@ resource "null_resource" "connect" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -y update",
-      "sudo apt install ansible -y"
+      "sudo apt install python3 -y"
     ]
   }
 
   depends_on = [aws_instance.b-h]
 
+  // provisioner "local-exec" {
+  //   command = "ansible-playbook -i inventory user_add.yml"
+  // }
+
+  provisioner "local-exec" {
+    command = "echo 'test2' >> /tmp/txt"
+  }  
 }

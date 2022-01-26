@@ -1,0 +1,6 @@
+---
+ubuntu:
+  - name: user1
+    publish_ssh_key: ssh-rsa AAAA...
+  - name: user2
+    publish_ssh_key: ssh-rsa AAAA...

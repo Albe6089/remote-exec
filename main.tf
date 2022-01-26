@@ -95,7 +95,7 @@ resource "null_resource" "connect" {
 
     inline = [
       "sudo mkdir /etc/ansible/roles/user_add/tasks -p",
-      "sudo mv /home/ubuntu/user_add.yml /etc/ansible/roles/user_add/tasks",
+      "sudo mv /tmp/user_add.yml /etc/ansible/roles/user_add/tasks",
       "sudo apt-get -y update",
       "sudo apt install python3 -y"
     ]
@@ -105,8 +105,7 @@ resource "null_resource" "connect" {
 
   provisioner "file" {
     source      = "user_add.yml"
-    // destination = "/tmp/user_add.yml"
-    destination = "/home/ubuntu/user_add.yml"
+    destination = "/tmp/user_add.yml"
   }
 }
 

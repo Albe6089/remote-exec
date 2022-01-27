@@ -95,27 +95,16 @@ resource "null_resource" "connect" {
 
     inline = [
       "sudo mkdir /etc/ansible/roles/user_add/tasks -p",
-      "sudo mv /tmp/user_add.yml /etc/ansible/roles/user_add/tasks",
+      "sudo mv /tmp/main.yml /etc/ansible/roles/user_add/tasks",
       "sudo apt-get -y update",
-      "sudo apt install python3 -y"
+      "sudo apt install python3 -y"      
     ]
   }
 
   depends_on = [aws_instance.b-h]
 
   provisioner "file" {
-    source      = "user_add.yml"
-    destination = "/tmp/user_add.yml"
+    source      = "main.yml"
+    destination = "/tmp/main.yml"
   }
 }
-
-// resource "null_resource" "remote_cmds" {
-
-//   triggers = {
-//     always_run = "${timestamp()}"
-//   }
-
-//   provisioner "local-exec" {
-//     command = "echo 'test1' > /tmp/txt "
-//   }
-// }

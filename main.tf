@@ -98,7 +98,7 @@ resource "null_resource" "connect" {
       "sudo mv /tmp/main.yml /etc/ansible/roles/user_add/tasks",
       "sudo apt-get update -y",
       "sudo apt install python3 -y",
-      "sudo apt install ansible -y"      
+      "sudo apt install ansible -y"
     ]
   }
 
@@ -108,4 +108,11 @@ resource "null_resource" "connect" {
     source      = "main.yml"
     destination = "/tmp/main.yml"
   }
+
+  provisioner "local-exec" {
+    command    = "echo public IP: ${aws_instance.b-h.public_ip}"
+    on_failure = continue
+  }
+
 }
+

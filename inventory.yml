@@ -1,0 +1,6 @@
+bastionhost:
+  hosts:
+    bastionhost:
+      ansible_host: 54.244.73.104
+  vars:
+    ansible_user: my_bastion_host

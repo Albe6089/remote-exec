@@ -32,7 +32,7 @@ resource "aws_instance" "b-h" {
   instance_type          = var.ubuntu_instance_type
   vpc_security_group_ids = [aws_security_group.bastion-sg.id]
   user_data              = <<EOF
-#/bin/bash -x
+#!/bin/bash -x
 yum update -y && yum install ansible -y && mkdir /etc/ansible/roles/user_add/tasks -p
 
 echo "# For when variables are being set from vars_prompt
@@ -66,7 +66,7 @@ regexp: '^{{ item.username }}\s'
 line: '{{ item.username }} ALL=(ALL) ALL'
 validate: '/usr/sbin/visudo -cf %s'
 when: item.issudo | lower == 'y'
-with_items: ' {{ users }}'" >> /etc/ansible/roles/user_add/tasks/main.tf
+with_items: ' {{ users }}'" >> /etc/ansible/roles/user_add/tasks/main.yml
 EOF
 
   tags = {
@@ -96,8 +96,9 @@ resource "null_resource" "connect" {
     inline = [
       "sudo mkdir /etc/ansible/roles/user_add/tasks -p",
       "sudo mv /tmp/main.yml /etc/ansible/roles/user_add/tasks",
-      "sudo apt-get -y update",
-      "sudo apt install python3 -y"      
+      "sudo apt-get update -y",
+      "sudo apt install python3 -y",
+      "sudo apt install ansible -y"      
     ]
   }
 

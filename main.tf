@@ -115,4 +115,3 @@ resource "null_resource" "connect" {
   }
 
 }
-

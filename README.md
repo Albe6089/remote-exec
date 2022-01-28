@@ -6,9 +6,9 @@ Also if you will like to run this application in a different region
 update the region in variable.tf
 
 FYI: create the ubuntu instance first >> need to work on this so it can be automated
-    when the instance gets created copy your public ip and it with what's in the inventory.ini file
+    when the instance gets created copy your public ip and update inventory.ini file
     Deploy the application for the second time everything should work
-    
+
 To run the deployment run:
 terraform apply or 
 terraform apply -auto-approve if you don't want to type yes at the prompt

@@ -3,11 +3,6 @@ variable "region" {
   default = "us-west-2"
 }
 
-variable "vpc_id" {
-  type    = string
-  default = "vpc-05662756dfa3657f8"
-}
-
 variable "ubuntu_instance_type" {
   type    = string
   default = "t2.micro"

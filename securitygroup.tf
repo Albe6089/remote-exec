@@ -1,7 +1,7 @@
 # Bastion-Host SG
 resource "aws_security_group" "bastion-sg" {
   name   = "bastion-security-group"
-  vpc_id = data.aws_vpc.selected.id
+  vpc_id = data.aws_vpc.default.id
 
   # SSH access from anywhere
   dynamic "ingress" {

@@ -67,8 +67,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
+#     - name: Configure AWS Credentials
+    - name: Setup Terraform    
+      uses: hashicorp/setup-terraform@v1
       with:
         role-to-assume: arn:aws:iam::082727703945:role/github-ssm-Role-1H3UZJ9KJI3HM
         aws-region: us-west-2

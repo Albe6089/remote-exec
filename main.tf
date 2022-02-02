@@ -46,7 +46,7 @@ resource "aws_ssm_parameter" "public_rsa_key" {
 resource "aws_key_pair" "bastion_keypair" {
   key_name   = "bastion_keypair"
   public_key = tls_private_key.default_rsa.public_key_openssh
-  depends_on  = [tls_private_key.default_rsa]
+  depends_on = [tls_private_key.default_rsa]
 
 }
 
@@ -65,7 +65,7 @@ resource "aws_instance" "b-h" {
   iam_instance_profile        = aws_iam_instance_profile.default.name
   user_data                   = data.template_file.user_data.rendered
   vpc_security_group_ids      = [aws_security_group.bastion-sg.id]
-  
+
 
 
   tags = {
@@ -97,7 +97,7 @@ resource "aws_iam_role" "github_Albe6089" {
       }
       Condition = {
         StringLike = {
-          "token.actions.githubusercontent.com:aud" :  ["sts.amazonaws.com" ],
+          "token.actions.githubusercontent.com:aud" : ["sts.amazonaws.com"],
           "token.actions.githubusercontent.com:sub" : "repo:Albe6089/*"
         }
       }

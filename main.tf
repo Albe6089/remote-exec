@@ -62,7 +62,8 @@ resource "aws_instance" "b-h" {
   associate_public_ip_address = true
   key_name                    = aws_key_pair.bastion_keypair.key_name
   instance_type               = var.ubuntu_instance_type
-  iam_instance_profile        = aws_iam_instance_profile.default.name
+  iam_instance_profile        = aws_iam_instance_profile.server_profile.id
+  // iam_instance_profile        = aws_iam_instance_profile.default.name
   user_data                   = data.template_file.user_data.rendered
   vpc_security_group_ids      = [aws_security_group.bastion-sg.id]
   

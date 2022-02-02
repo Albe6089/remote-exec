@@ -55,19 +55,65 @@ data "template_file" "user_data" {
 
 }
 
+
 # creating a bastion-host
 resource "aws_instance" "b-h" {
-  ami                    = data.aws_ami.latest-ubuntu.id
-  key_name               = aws_key_pair.bastion_keypair.key_name
-  instance_type          = var.ubuntu_instance_type
-  iam_instance_profile   = aws_iam_instance_profile.default.name
-  vpc_security_group_ids = [aws_security_group.bastion-sg.id]
-  user_data              = data.template_file.user_data.rendered
+  ami                         = data.aws_ami.latest-ubuntu.id
+  associate_public_ip_address = true
+  key_name                    = aws_key_pair.bastion_keypair.key_name
+  instance_type               = var.ubuntu_instance_type
+  iam_instance_profile        = aws_iam_instance_profile.default.name
+  user_data                   = data.template_file.user_data.rendered
+  vpc_security_group_ids      = [aws_security_group.bastion-sg.id]
+  
+
 
   tags = {
     Name = "Bastion_Host"
   }
 }
+
+resource "null_resource" "test" {
+  provisioner "local-exec" {
+    command     = file("ssh-port-forward.sh")
+    interpreter = ["bash", "-c"]
+    environment = {
+      INSTANCE_ID = aws_instance.b-h.id
+      USERNAME    = "ubuntu"
+      RANDOM_PORT = random_integer.ssh_port.result
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = ["echo hello world"]
+    connection {
+      host = "52.88.206.177"
+      port = random_integer.ssh_port.result
+      user = "ubuntu"
+    }
+  }
+}
+
+resource "random_integer" "ssh_port" {
+  min = "10000"
+  max = "60000"
+}
+
+
+
+# creating a bastion-host
+// resource "aws_instance" "b-h" {
+//   ami                    = data.aws_ami.latest-ubuntu.id
+//   key_name               = aws_key_pair.bastion_keypair.key_name
+//   instance_type          = var.ubuntu_instance_type
+//   iam_instance_profile   = aws_iam_instance_profile.default.name
+//   vpc_security_group_ids = [aws_security_group.bastion-sg.id]
+//   user_data              = data.template_file.user_data.rendered
+
+//   tags = {
+//     Name = "Bastion_Host"
+//   }
+// }
 
 # resource implements the standard resource lifecycle but takes no further action
 // resource "null_resource" "connect" {
@@ -103,36 +149,36 @@ resource "aws_instance" "b-h" {
 // }
 
 
-resource "null_resource" "test" {
-  provisioner "local-exec" {
-    command     = file("ssh-port-forward.sh")
-    interpreter = ["bash", "-c"]
-    environment = {
-      INSTANCE_ID = "i-0d0efab728ecb4f0f"
-      USERNAME    = "ubuntu"
-      RANDOM_PORT = random_integer.ssh_port.result
-    }
-  }
+// resource "null_resource" "test" {
+//   provisioner "local-exec" {
+//     command     = file("ssh-port-forward.sh")
+//     interpreter = ["bash", "-c"]
+//     environment = {
+//       INSTANCE_ID = "i-0d0efab728ecb4f0f"
+//       USERNAME    = "ubuntu"
+//       RANDOM_PORT = random_integer.ssh_port.result
+//     }
+//   }
 
-  provisioner "remote-exec" {
-    inline = ["echo hello world"]
-    connection {
-      host = "52.88.206.177"
-      port = random_integer.ssh_port.result
-      user = "ubuntu"
-      timeout ="1m"
-    }
-  }
+//   provisioner "remote-exec" {
+//     inline = ["echo hello world"]
+//     connection {
+//       host = "52.88.206.177"
+//       port = random_integer.ssh_port.result
+//       user = "ubuntu"
+//       timeout ="1m"
+//     }
+//   }
 
-  depends_on = [aws_instance.b-h]
+//   depends_on = [aws_instance.b-h]
 
-  provisioner "local-exec" {
-    command    = "ansible-playbook user_add.yml -i inventory.ini --become"
-    on_failure = fail
-  }  
-}
+//   provisioner "local-exec" {
+//     command    = "ansible-playbook user_add.yml -i inventory.ini --become"
+//     on_failure = fail
+//   }  
+// }
 
-resource "random_integer" "ssh_port" {
-  min = "10000"
-  max = "60000"
-}
+// resource "random_integer" "ssh_port" {
+//   min = "10000"
+//   max = "60000"
+// }

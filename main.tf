@@ -73,33 +73,63 @@ resource "aws_instance" "b-h" {
   }
 }
 
-resource "null_resource" "test" {
-  provisioner "local-exec" {
-    command     = file("ssh-port-forward.sh")
-    interpreter = ["bash", "-c"]
-    environment = {
-      INSTANCE_ID = aws_instance.b-h.id
-      USERNAME    = "ubuntu"
-      RANDOM_PORT = random_integer.ssh_port.result
-    }
-  }
+// resource "null_resource" "test" {
+//   provisioner "local-exec" {
+//     command     = file("ssh-port-forward.sh")
+//     interpreter = ["bash", "-c"]
+//     environment = {
+//       INSTANCE_ID = aws_instance.b-h.id
+//       USERNAME    = "ubuntu"
+//       RANDOM_PORT = random_integer.ssh_port.result
+//     }
+//   }
 
-  provisioner "remote-exec" {
-    inline = ["echo hello world"]
-    connection {
-      host = "52.88.206.177"
-      port = random_integer.ssh_port.result
-      user = "ubuntu"
-    }
-  }
+//   provisioner "remote-exec" {
+//     inline = ["echo hello world"]
+//     connection {
+//       host = "52.88.206.177"
+//       port = random_integer.ssh_port.result
+//       user = "ubuntu"
+//     }
+//   }
+// }
+
+// resource "random_integer" "ssh_port" {
+//   min = "10000"
+//   max = "60000"
+// }
+
+resource "aws_iam_openid_connect_provider" "github" {
+  url = "https://token.actions.githubusercontent.com"
+  client_id_list = [
+    // original value "sigstore",
+    "sts.amazonaws.com", // Used by aws-actions/configure-aws-credentials
+  ]
+  thumbprint_list = [
+    // original value "a031c46782e6e6c662c2c87c76da9aa62ccabd8e",
+    "6938fd4d98bab03faadb97b34396831e3780aea1",
+  ]
 }
 
-resource "random_integer" "ssh_port" {
-  min = "10000"
-  max = "60000"
+resource "aws_iam_role" "github_Albe6089" {
+  name = "GitHubAlbe6089"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Action = "sts:AssumeRoleWithWebIdentity"
+      Effect = "Allow"
+      Principal = {
+        Federated = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/token.actions.githubusercontent.com"
+      }
+      Condition = {
+        StringLike = {
+          "token.actions.githubusercontent.com:aud" :  ["sts.amazonaws.com" ],
+          "token.actions.githubusercontent.com:sub" : "repo:Albe6089/*"
+        }
+      }
+    }]
+  })
 }
-
-
 
 # creating a bastion-host
 // resource "aws_instance" "b-h" {

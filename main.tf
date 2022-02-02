@@ -1,7 +1,7 @@
 # using a default vpc
 data "aws_vpc" "default" {
   default = true
-} 
+}
 
 # using a data resource to lookup the latest ubuntu ami
 data "aws_ami" "latest-ubuntu" {
@@ -72,8 +72,8 @@ resource "null_resource" "remote_cmds" {
     always_run = timestamp()
   }
 
-provisioner "local-exec" {
+  provisioner "local-exec" {
     command    = "ansible-playbook user_add.yml -i inventory.ini --become"
-    on_failure = continue      
-}
+    on_failure = continue
+  }
 }

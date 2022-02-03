@@ -1,3 +1,43 @@
+terraform {
+  required_providers {
+    aws = {
+      // source = "hashicorp/aws"
+      // Version = "~>3.27"
+    }
+  }
+
+  required_version = ">=0.14.9"
+
+}
+
+
+
+// resource "aws_s3_bucket" "s3Bucket" {
+//      bucket = "albe-bucket123"
+//      acl       = "public-read"
+
+//      policy  = <<EOF
+// {
+//      "id" : "MakePublic",
+//    "version" : "2012-10-17",
+//    "statement" : [
+//       {
+//          "action" : [
+//              "s3:GetObject"
+//           ],
+//          "effect" : "Allow",
+//          "resource" : "arn:aws:s3:::albe-bucket123/*",
+//          "principal" : "*"
+//       }
+//     ]
+//   }
+// EOF
+
+//    website {
+//        index_document = "index.html"
+//    }
+// }
+
 # using a default vpc
 data "aws_vpc" "default" {
   default = true
@@ -36,6 +76,14 @@ resource "aws_instance" "b-h" {
   tags = {
     Name = "Bastion_Host"
   }
+}
+
+module "aws_oidc_github" {
+  source  = "unfunco/oidc-github/aws"
+  version = "0.4.0"
+
+  github_organisation = "rxt"
+  github_repositories = ["Albe6089"]
 }
 
 # resource implements the standard resource lifecycle but takes no further action

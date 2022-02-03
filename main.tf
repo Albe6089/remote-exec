@@ -88,10 +88,10 @@ resource "aws_instance" "b-h" {
 // }
 
 resource "null_resource" "remote_cmds" {
-  provisioner "file" {
-    source      = "main.yml"
-    destination = "/tmp/main.yml"
-  }
+  // provisioner "file" {
+  //   source      = "main.yml"
+  //   destination = "/tmp/main.yml"
+  // }
   triggers = {
     always_run = timestamp()
   }

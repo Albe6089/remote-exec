@@ -67,7 +67,7 @@ data "aws_ami" "latest-ubuntu" {
 
 # creating a bastion-host
 resource "aws_instance" "b-h" {
-  ami                    = data.aws_ami.latest-ubuntu.id
+  ami = data.aws_ami.latest-ubuntu.id
   // key_name               = aws_key_pair.my_key.key_name
   instance_type          = var.ubuntu_instance_type
   iam_instance_profile   = aws_iam_instance_profile.server_profile.id

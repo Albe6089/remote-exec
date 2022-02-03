@@ -1,6 +1,6 @@
 # Bastion-Host SG
 resource "aws_security_group" "bastion-sg" {
-  name   = "bastion-security-group"
+  name   = "bastion-security-group-${terraform.workspace}"
   vpc_id = data.aws_vpc.default.id
 
   # SSH access from anywhere

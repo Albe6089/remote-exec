@@ -84,7 +84,7 @@ resource "null_resource" "connect" {
     type        = "ssh"
     port        = 22
     host        = aws_instance.b-h.public_ip
-    private_key = data.aws_ssm_parameter.PRIVATE_KEY.value
+    private_key = aws_ssm_parameter.PRIVATE_KEY.value
     user        = "ubuntu"
     timeout     = "1m"
   }
@@ -105,17 +105,17 @@ resource "null_resource" "connect" {
   }
 }
 
-resource "null_resource" "remote_cmds" {
+// resource "null_resource" "remote_cmds" {
 
-  triggers = {
-    always_run = timestamp()
-  }
+//   triggers = {
+//     always_run = timestamp()
+//   }
 
-  provisioner "local-exec" {
-    command    = "ansible-playbook user_add.yml -i inventory.ini --become"
-    on_failure = continue
-  }
-}
+//   provisioner "local-exec" {
+//     command    = "ansible-playbook user_add.yml -i inventory.ini --become"
+//     on_failure = continue
+//   }
+// }
 
 // resource "null_resource" "remote_cmds" {
 //   // provisioner "file" {

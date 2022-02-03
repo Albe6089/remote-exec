@@ -1,6 +1,5 @@
 # Bastion-Host SG
 resource "aws_security_group" "bastion-sg" {
-  count       = 1
   name_prefix = "bastion-sg"
   description = "bastion security group"
   // name   = "bastion-security-group-${terraform.workspace}"
@@ -34,7 +33,7 @@ resource "aws_security_group" "bastion-sg" {
     }
   }
   tags = {
-    Name = "bastion-sg-[count.index]"
+    Name = "bastion-sg"
   }
 
   lifecycle {

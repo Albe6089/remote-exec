@@ -31,7 +31,7 @@ resource "aws_instance" "b-h" {
   // key_name               = aws_key_pair.my_key.key_name
   instance_type          = var.ubuntu_instance_type
   iam_instance_profile   = aws_iam_instance_profile.server_profile.id
-  vpc_security_group_ids = aws_security_group.bastion-sg[count.index]
+  vpc_security_group_ids = aws_security_group.bastion-sg
 
   tags = {
     Name = "var.bastion_Host"

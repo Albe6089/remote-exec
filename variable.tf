@@ -8,8 +8,8 @@ variable "ubuntu_instance_type" {
   default = "t2.micro"
 }
 
-variable "environment" {
-  default = "dev"
+variable "bucket" {
+  default = "bastion-tfstate-bucket"
 }
 
 variable "ingress_rules" {

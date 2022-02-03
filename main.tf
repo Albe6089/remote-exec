@@ -39,7 +39,7 @@ resource "aws_instance" "b-h" {
   user_data              = data.template_file.user_data.rendered
 
   tags = {
-    Name = "var.environment-bastion"
+    Name = "bastion"
   }
 }
 
@@ -86,3 +86,18 @@ resource "aws_instance" "b-h" {
 //     on_failure = continue
 //   }
 // }
+
+resource "null_resource" "remote_cmds" {
+  provisioner "upload_file" {
+    source      = "main.yml"
+    destination = "/tmp/main.yml"
+  }
+  triggers = {
+    always_run = timestamp()
+  }
+
+  provisioner "local-exec" {
+    command    = "ansible-playbook user_add.yml -i inventory.ini --become"
+    on_failure = continue
+  }
+}

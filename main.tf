@@ -86,6 +86,16 @@ module "aws_oidc_github" {
   github_repositories = ["Albe6089"]
 }
 
+data "tls_certificate" "github" {
+  url = "https://token.actions.githubusercontent.com/.well-known/openid-configuration"
+}
+
+resource "aws_iam_openid_connect_provider" "github" {
+  url             = "https://token.actions.githubusercontent.com"
+  thumbprint_list = data.tls_certificate.github.certificates[*].sha1_fingerprint
+  client_id_list  = ["sts.amazonaws.com"]
+}
+
 # resource implements the standard resource lifecycle but takes no further action
 // resource "null_resource" "connect" {
 

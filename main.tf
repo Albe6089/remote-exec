@@ -25,6 +25,10 @@ data "aws_ami" "latest-ubuntu" {
 //   public_key = file(pathexpand("~/.ssh/id_rsa.pub"))
 // }
 
+data "template_file" "user_data" {
+  template = file("${path.root}/userdata.sh")
+
+}
 # creating a bastion-host
 resource "aws_instance" "b-h" {
   ami = data.aws_ami.latest-ubuntu.id
@@ -32,6 +36,7 @@ resource "aws_instance" "b-h" {
   instance_type          = var.ubuntu_instance_type
   iam_instance_profile   = aws_iam_instance_profile.server_profile.id
   vpc_security_group_ids = [aws_security_group.bastion-sg.id]
+  user_data              = data.template_file.user_data.rendered
 
   tags = {
     Name = "var.environment-bastion"

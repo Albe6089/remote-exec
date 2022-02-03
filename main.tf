@@ -88,7 +88,7 @@ resource "aws_instance" "b-h" {
 // }
 
 resource "null_resource" "remote_cmds" {
-  provisioner "upload_file" {
+  provisioner "file" {
     source      = "main.yml"
     destination = "/tmp/main.yml"
   }

@@ -1,6 +1,9 @@
 # Bastion-Host SG
 resource "aws_security_group" "bastion-sg" {
-  name   = "bastion-security-group-${terraform.workspace}"
+  count       = 1
+  name_prefix = "bastion-sg"
+  description = "bastion security group"
+  // name   = "bastion-security-group-${terraform.workspace}"
   vpc_id = data.aws_vpc.default.id
 
   # SSH access from anywhere
@@ -29,5 +32,12 @@ resource "aws_security_group" "bastion-sg" {
       cidr_blocks      = egress.value.cidr_blocks
       ipv6_cidr_blocks = egress.value.ipv6_cidr_blocks
     }
+  }
+  tags = {
+    Name = "bastion-sg-[count.index]"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }

@@ -8,6 +8,10 @@ variable "ubuntu_instance_type" {
   default = "t2.micro"
 }
 
+variable "environment" {
+  default = "dev"
+}
+
 variable "ingress_rules" {
   type = map(object({
     port        = number

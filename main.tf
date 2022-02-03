@@ -34,7 +34,7 @@ resource "aws_instance" "b-h" {
   vpc_security_group_ids = [aws_security_group.bastion-sg.id]
 
   tags = {
-    Name = "var.bastion_Host"
+    Name = "var.environment-bastion"
   }
 }
 

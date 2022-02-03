@@ -1,7 +1,7 @@
 # using a default vpc
-data "aws_vpc" "default" {
-  default = true
-}
+// data "aws_vpc" "default" {
+//   default = true
+// }
 
 # using a data resource to lookup the latest ubuntu ami
 data "aws_ami" "latest-ubuntu" {

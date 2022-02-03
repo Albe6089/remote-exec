@@ -9,7 +9,7 @@ variable "ubuntu_instance_type" {
 }
 
 variable "bucket" {
-  default = "bastion-tfstate-bucket"
+  default = "bastion-buck"
 }
 
 variable "ingress_rules" {

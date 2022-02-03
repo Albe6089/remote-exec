@@ -8,10 +8,6 @@ variable "ubuntu_instance_type" {
   default = "t2.micro"
 }
 
-variable "bucket" {
-  default = "bastion-buck"
-}
-
 variable "ingress_rules" {
   type = map(object({
     port        = number

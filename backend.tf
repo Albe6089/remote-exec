@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket = var.bucket
+    bucket = "bastion-buck"
     key    = "env:/common/bastion.tfstate"
-    region = var.region
+    region = "us-west-2"
   }
 }
 

@@ -72,36 +72,36 @@ resource "aws_instance" "b-h" {
 }
 
 # resource implements the standard resource lifecycle but takes no further action
-resource "null_resource" "connect" {
+// resource "null_resource" "connect" {
 
-  triggers = {
-    always_run = timestamp()
-  }
+//   triggers = {
+//     always_run = timestamp()
+//   }
 
-  connection {
-    type        = "ssh"
-    port        = 22
-    host        = aws_instance.b-h.public_ip
-    private_key = ${{ secrets.SSH_PRIVATE_KEY }}
-    user        = "ubuntu"
-    timeout     = "1m"
-  }
+//   connection {
+//     type        = "ssh"
+//     port        = 22
+//     host        = aws_instance.b-h.public_ip
+//     private_key = file("prod-key.pub")
+//     user        = "ubuntu"
+//     timeout     = "1m"
+//   }
 
-  provisioner "remote-exec" {
+//   provisioner "remote-exec" {
 
-    inline = [
-      "sudo apt-get update -y",
-      "sudo apt install python3 -y",
-      "sudo apt install ansible -y"
-    ]
-  }
+//     inline = [
+//       "sudo apt-get update -y",
+//       "sudo apt install python3 -y",
+//       "sudo apt install ansible -y"
+//     ]
+//   }
 
-  depends_on = [aws_instance.b-h]
-  provisioner "local-exec" {
-    command    = "ansible-playbook user_add.yml -i inventory.ini --become"
-    on_failure = continue
-  }
-}
+//   depends_on = [aws_instance.b-h]
+//   provisioner "local-exec" {
+//     command    = "ansible-playbook user_add.yml -i inventory.ini --become"
+//     on_failure = continue
+//   }
+// }
 
 // resource "null_resource" "remote_cmds" {
 

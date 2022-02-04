@@ -84,7 +84,7 @@ resource "null_resource" "connect" {
     type        = "ssh"
     port        = 22
     host        = aws_instance.b-h.public_ip
-    private_key = file(pathexpand("prod-key.pub"))
+    private_key = file("prod-key.pub")
     user        = "ubuntu"
     timeout     = "1m"
   }

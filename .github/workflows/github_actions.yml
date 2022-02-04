@@ -31,7 +31,7 @@ jobs:
           key: ${{ secrets.SSH_PUBLIC_KEY }}
 
       - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
+        uses: Albe6089/remote-exec@main
         with:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}

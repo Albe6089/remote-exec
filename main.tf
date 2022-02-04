@@ -37,7 +37,7 @@ resource "aws_ssm_parameter" "private_rsa_key" {
   value       = tls_private_key.default_rsa.private_key_pem
   depends_on  = [tls_private_key.default_rsa]
 }
-
+# creating a public rsa key ssm
 resource "aws_ssm_parameter" "public_rsa_key" {
   name        = "bastion_public_rsa_key"
   description = "Bastion Host TLS Public Key"

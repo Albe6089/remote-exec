@@ -30,14 +30,22 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           key: ${{ secrets.SSH_PUBLIC_KEY }}
 
-      - name: executing remote ssh commands using ssh key
-        uses: Albe6089/remote-exec@main
+      # - name: executing remote ssh commands using ssh key
+      #   uses: Albe6089/remote-exec@main
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     user: ${{ secrets.USER }}
+      #     port: ${{ secrets.PORT }}
+      #     key: ${{ secrets.SSH_PUBLIC_KEY }}
+      #     script: whoami
+
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
         with:
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.USER }}
-          port: ${{ secrets.PORT }}
+          playbook: ansible/user_add.yml
+          directory: ./
+          inventory: ${{ secrets.ansible_inventory }}
           key: ${{ secrets.SSH_PUBLIC_KEY }}
-          script: whoami
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init

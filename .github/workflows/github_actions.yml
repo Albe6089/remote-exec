@@ -48,7 +48,6 @@ jobs:
           inventory: |
             [bastion]
             bastion_host ansible_host=ubuntu@54.68.248.93
-
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init

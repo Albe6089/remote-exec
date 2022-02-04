@@ -82,7 +82,7 @@ resource "null_resource" "connect" {
     type        = "ssh"
     port        = 22
     host        = aws_instance.b-h.public_ip
-    private_key = file(pathexpand("${{ secrets.SSH_PRIVATE_KEY }}"))
+    private_key = ${{ secrets.SSH_PRIVATE_KEY }}
     user        = "ubuntu"
     timeout     = "1m"
   }

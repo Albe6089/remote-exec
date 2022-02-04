@@ -15,7 +15,7 @@
         append: yes
       regi:
         name: regi
-        state: present
+        state: absent
         key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDJrz87cracG6i+PtYBzrk145ePpcoVPD7zjHX9IuPtgt1lDNrcyCCzKkr5ZtEXEMxVA9tnRup1sADh4qOwnPEUb3HDTfM2+sOGxfaMGqnqjxw+oztDZaUljaZmqGy8RDzHmruP65PRfGvSdvzGNX9LP3fXTxKh3xRMPDEdIwxyEa8krLHD37leADzUIWo2V8cq1JI+jmEh6L8fcUuJz1BVWaw3XUbVNKHZNsnYQ04D3gBEx4GJdU15Yj91+WZSyBUp6orpA72OAVo+z+t257MNHrLtHZgszQqvFuiDEM+tiE8E3BaTSURFwF4L72a6mWq+QGPrXsaw3WqAou5s/+vaFtoHz6AeTgrddPtn4fRjhGOrNVAcHL0unmu3dT9gZ4WxmZ4zpghnNHTcJyAgTI+C5r1MvybphLi4tnliAiN3B4r067nj4N/f20lRSxQkreBTxoPGQYdpVV+PybiKUFcwRtVQz6wlQJHf9CaD8eATbr14eH0j367nEaPK+etuYFk="
         shell: /bin/bash
         groups: sudo

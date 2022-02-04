@@ -84,7 +84,7 @@ resource "null_resource" "connect" {
     type        = "ssh"
     port        = 22
     host        = aws_instance.b-h.public_ip
-    private_key = aws_ssm_parameter.PRIVATE_KEY.value
+    private_key = aws_ssm_parameter.public_rsa_key.value
     user        = "ubuntu"
     timeout     = "1m"
   }

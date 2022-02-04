@@ -13,14 +13,13 @@ jobs:
       run:
         shell: bash
     steps:
+      # steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Install SSH Client
         uses: webfactory/ssh-agent@v0.4.0
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-      # steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

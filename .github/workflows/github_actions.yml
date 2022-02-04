@@ -16,10 +16,11 @@ jobs:
       # steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install SSH Client
-        uses: webfactory/ssh-agent@v0.4.0
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
         with:
-          ssh-private-key: ${{ secrets.MACBOOK_PRO }}
+          limit-access-to-actor: true
+          limit-access-to-actors: Albe6089
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

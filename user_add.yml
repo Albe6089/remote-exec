@@ -45,3 +45,10 @@
         regexp: "^%wheel"
         line: "%wheel ALL=(ALL) NOPASSWD: ALL"
         validate: "visudo -cf %s"
+
+    # Copy file to remote host
+    - name: Copy myapp.conf
+      template:
+        src: main.yml
+      dest: /tmp/main.yml
+# Remove USER and SSH

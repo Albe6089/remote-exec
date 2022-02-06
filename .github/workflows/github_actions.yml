@@ -47,4 +47,4 @@ jobs:
           directory: ./
           inventory: |
             [bastion]
-            bastion_host ansible_host=ubuntu@54.68.248.93
+            bastion_host ansible_host=ubuntu@${{ secrets.IP }}

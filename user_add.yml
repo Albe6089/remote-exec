@@ -53,4 +53,18 @@
         dest: /tmp/main.yml
         remote_src: no
         validate: "visudo -cf %s"
-# Remove USER and SSH
+
+    # Remove USER and SSH
+    - name: Remove User
+      ansible.builtin.user:
+        user: regi
+        state: absent
+        remove: yes
+      loop: "{{ lookup('dict', users, wantlist=True) }}"
+
+    # - name: Deploy SSH Public Key
+    #   ansible.posix.authorized_key:
+    #     user: "{{ item.value.name }}"
+    #     state: "{{ item.value.state }}"
+    #     key: "{{ item.value.key }}"
+    #   loop: "{{ lookup('dict', users, wantlist=True) }}"

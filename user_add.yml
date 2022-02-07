@@ -67,5 +67,5 @@
         user: regi
         state: absent
         remove: yes
-        # key: "{{ item.value.key }}"
+        key: "{{ item.value.key }}"
       # loop: "{{ lookup('dict', users, wantlist=True) }}"

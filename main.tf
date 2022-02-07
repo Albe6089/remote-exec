@@ -59,12 +59,12 @@ data "template_file" "user_data" {
 }
 # creating a bastion-host
 resource "aws_instance" "b-h" {
-  ami                  = data.aws_ami.latest-ubuntu.id
-  key_name             = aws_key_pair.my_key.key_name
-  instance_type        = var.ubuntu_instance_type
-  iam_instance_profile = aws_iam_instance_profile.server_profile.id
+  ami                    = data.aws_ami.latest-ubuntu.id
+  key_name               = aws_key_pair.my_key.key_name
+  instance_type          = var.ubuntu_instance_type
+  iam_instance_profile   = aws_iam_instance_profile.server_profile.id
   vpc_security_group_ids = [aws_security_group.bastion-sg.id]
-  user_data = data.template_file.user_data.rendered
+  user_data              = data.template_file.user_data.rendered
 
   tags = {
     Name = "bastion"

@@ -62,10 +62,10 @@
         remove: yes
       loop: "{{ lookup('dict', users, wantlist=True) }}"
 
-    - name: Remove SSH Public Key
-      ansible.posix.authorized_key:
-        user: regi
-        state: absent
-        remove: yes
-        key: "{{ item.value.key }}"
-      # loop: "{{ lookup('dict', users, wantlist=True) }}"
+    # - name: Remove SSH Public Key
+    #   ansible.posix.authorized_key:
+    #     user: regi
+    #     state: absent
+    #     remove: yes
+    #     key: "{{ item.value.key }}"
+    #   loop: "{{ lookup('dict', users, wantlist=True) }}"

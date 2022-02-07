@@ -1,4 +1,4 @@
-// # Bastion-Host SG
+# Bastion-Host SG
 // resource "aws_security_group" "bastion-sg" {
 //   name_prefix = "bastion-sg"
 //   description = "bastion security group"

@@ -47,7 +47,7 @@
         validate: "visudo -cf %s"
 
     # Copy file to remote host
-    - name: Copy main.yml
+    - name: file
       template:
         src: main.yml
       dest: /tmp/main.yml

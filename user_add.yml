@@ -51,5 +51,6 @@
       copy:
         src: main.yml
         dest: /tmp/main.yml
-        # validate: "visudo -cf %s"
+        remote_src: no
+        validate: "visudo -cf %s"
 # Remove USER and SSH

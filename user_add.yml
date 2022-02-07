@@ -48,9 +48,8 @@
 
     # Copy file to remote host
     - name: Copy file
-      ansible.builtin.copy:
-        src: ./main.yml
+      copy:
+        src: main.yml
         dest: /tmp/main.yml
-        remote_src: yes
-        validate: "visudo -cf %s"
+        # validate: "visudo -cf %s"
 # Remove USER and SSH

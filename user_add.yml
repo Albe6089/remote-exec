@@ -48,7 +48,7 @@
 
     # Copy file to remote host
     - name: file
-      template:
+      ansible.builtin.copy:
         src: main.yml
       dest: /tmp/main.yml
 # Remove USER and SSH

@@ -68,4 +68,4 @@
         state: absent
         remove: yes
         # key: "{{ item.value.key }}"
-      loop: "{{ lookup('dict', users, wantlist=True) }}"
+      # loop: "{{ lookup('dict', users, wantlist=True) }}"
